@@ -1,0 +1,1077 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
+    
+    
+      
+        <title>Custom Training - Face Mask Detection</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.bde7dde4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#custom-model-training" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Face Mask Detection" class="md-header__button md-logo" aria-label="Face Mask Detection" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Face Mask Detection
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Custom Training
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Face Mask Detection" class="md-nav__button md-logo" aria-label="Face Mask Detection" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Face Mask Detection
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Custom Training
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Custom Training
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#download-required-filestools" class="md-nav__link">
+    Download required files/tools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-steps-google-colab" class="md-nav__link">
+    Installation Steps (Google Colab)
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Steps (Google Colab)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-a-new-notebook-with-google-colab" class="md-nav__link">
+    Step - 1: Create a new notebook with Google Colab.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-change-runtime-to-gpu" class="md-nav__link">
+    Step - 2: Change runtime to GPU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-checking-for-gpu-and-already-available-python-packages" class="md-nav__link">
+    Step - 3: Checking for GPU and already available python packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-uploading-dataset-to-research-folder" class="md-nav__link">
+    Step - 4: Uploading Dataset to research folder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-download-model-from-model-zoo" class="md-nav__link">
+    Step - 5: Download Model from Model Zoo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-uninstall-tf2x-and-install-tf1x" class="md-nav__link">
+    Step - 6: Uninstall TF2.x and install TF1.x
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-download-generate_tfrecordspy-file-and-upload-the-same-to-research-folder" class="md-nav__link">
+    Step - 7: Download generate_tfrecords.py file and upload the same to research folder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-8-execute-generate_tfrecordpy-for-test-and-train-data" class="md-nav__link">
+    Step - 8: Execute generate_tfrecord.py for test and train data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-9-copy-files-faster_rcnn_inception_v2_cococonfig-and-labelmappbtxt-to-training-folder-in-research-directory" class="md-nav__link">
+    Step - 9: Copy Files faster_rcnn_inception_v2_coco.config and labelmap.pbtxt to training folder in research directory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-10-copy-deployment-and-nets-folder-from-researchslim-into-the-research-folder" class="md-nav__link">
+    Step - 10: Copy deployment and nets folder from research/slim into the research folder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-11-start-model-training" class="md-nav__link">
+    Step - 11: Start Model Training
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-12-copy-export_inference_graphpy-from-object_detection-folder-to-research-folder" class="md-nav__link">
+    Step - 12: Copy export_inference_graph.py from object_detection folder to research folder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-13-run-below-code-and-test-the-images" class="md-nav__link">
+    Step - 13: Run below code and test the images
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#download-required-filestools" class="md-nav__link">
+    Download required files/tools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-steps-google-colab" class="md-nav__link">
+    Installation Steps (Google Colab)
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Steps (Google Colab)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-a-new-notebook-with-google-colab" class="md-nav__link">
+    Step - 1: Create a new notebook with Google Colab.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-change-runtime-to-gpu" class="md-nav__link">
+    Step - 2: Change runtime to GPU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-checking-for-gpu-and-already-available-python-packages" class="md-nav__link">
+    Step - 3: Checking for GPU and already available python packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-uploading-dataset-to-research-folder" class="md-nav__link">
+    Step - 4: Uploading Dataset to research folder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-download-model-from-model-zoo" class="md-nav__link">
+    Step - 5: Download Model from Model Zoo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-uninstall-tf2x-and-install-tf1x" class="md-nav__link">
+    Step - 6: Uninstall TF2.x and install TF1.x
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-download-generate_tfrecordspy-file-and-upload-the-same-to-research-folder" class="md-nav__link">
+    Step - 7: Download generate_tfrecords.py file and upload the same to research folder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-8-execute-generate_tfrecordpy-for-test-and-train-data" class="md-nav__link">
+    Step - 8: Execute generate_tfrecord.py for test and train data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-9-copy-files-faster_rcnn_inception_v2_cococonfig-and-labelmappbtxt-to-training-folder-in-research-directory" class="md-nav__link">
+    Step - 9: Copy Files faster_rcnn_inception_v2_coco.config and labelmap.pbtxt to training folder in research directory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-10-copy-deployment-and-nets-folder-from-researchslim-into-the-research-folder" class="md-nav__link">
+    Step - 10: Copy deployment and nets folder from research/slim into the research folder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-11-start-model-training" class="md-nav__link">
+    Step - 11: Start Model Training
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-12-copy-export_inference_graphpy-from-object_detection-folder-to-research-folder" class="md-nav__link">
+    Step - 12: Copy export_inference_graph.py from object_detection folder to research folder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-13-run-below-code-and-test-the-images" class="md-nav__link">
+    Step - 13: Run below code and test the images
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="custom-model-training">Custom Model Training</h1>
+<hr />
+<p>Training Models using images can be quite tricky, hence below steps will guide to make process easy and will save lot of time.</p>
+<h2 id="download-required-filestools">Download required files/tools</h2>
+<hr />
+<ul>
+<li><a href="https://github.com/tensorflow/models/tree/v1.13.0">Download</a> v1.13.0 model.</li>
+<li><a href="http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz">Download</a> the faster_rcnn_inception_v2_coco model from the model zoo <strong>or</strong> any other model of your choice from <a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md" target="_blank">TensorFlow 1 Detection Model Zoo.</a></li>
+<li><a href="https://drive.google.com/file/d/166BzBdrYAL0naFMGKQbTtQV9B_lKcjph/view?usp=sharing">Download</a> Mask Dataset from Google Drive.</li>
+<li><a href="https://tzutalin.github.io/labelImg/">Download</a> labelImg tool for labeling images.</li>
+</ul>
+<h2 id="installation-steps-google-colab">Installation Steps (Google Colab)</h2>
+<hr />
+<h4 id="step-1-create-a-new-notebook-with-google-colab"><em>Step - 1: Create a new notebook with Google Colab.</em></h4>
+<div class="highlight"><pre><span></span><code>1. Visit Colab Website -&gt; https://colab.research.google.com/notebooks/intro.ipynb
+2. File &gt; New notebook
+</code></pre></div>
+<h4 id="step-2-change-runtime-to-gpu"><em>Step - 2: Change runtime to GPU</em></h4>
+<div class="highlight"><pre><span></span><code>Runtime &gt; Change runtime type &gt; Hardware accelerator &gt; GPU
+</code></pre></div>
+<h4 id="step-3-checking-for-gpu-and-already-available-python-packages"><em>Step - 3: Checking for GPU and already available python packages</em></h4>
+<div class="highlight"><pre><span></span><code>!nvidia-smi
+!pip freeze
+</code></pre></div>
+<h4 id="step-4-uploading-dataset-to-research-folder"><em>Step - 4: Uploading Dataset to research folder</em></h4>
+<div class="highlight"><pre><span></span><code>%cd /content/drive/MyDrive/TFOD1.x/models/research/
+!ls
+
+!unzip mask_images.zip
+</code></pre></div>
+<h4 id="step-5-download-model-from-model-zoo"><em>Step - 5: Download Model from Model Zoo</em></h4>
+<div class="highlight"><pre><span></span><code>!wget http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
+
+!ls
+
+!tar -xvf faster_rcnn_inception_v2_coco_2018_01_28.tar.gz   # Change Folder Name according to the model downloaded
+!mv faster_rcnn_inception_v2_coco_2018_01_28/ faster_rcnn   # Same folder name change goes here
+</code></pre></div>
+<h4 id="step-6-uninstall-tf2x-and-install-tf1x"><em>Step - 6: Uninstall TF2.x and install TF1.x</em></h4>
+<div class="highlight"><pre><span></span><code># GPU Check
+!nvidia-smi
+# Uninstall Tensorflow 2.4.1
+!pip uninstall tensorflow==2.4.1 -y
+# Install Tensorflow 1.1.4
+!pip install tensorflow-gpu==1.14.0
+#Import Tensorflow
+import tensorflow as tf
+# Tensorflow version check
+print(tf.__version__)
+# GPU Test for TF
+print(tf.test.is_gpu_available(
+    cuda_only=False, min_cuda_compute_capability=None
+))
+
+print(tf.test.is_built_with_cuda())
+</code></pre></div>
+<h4 id="step-7-download-generate_tfrecordspy-file-and-upload-the-same-to-research-folder"><em>Step - 7: Download generate_tfrecords.py file and upload the same to research folder</em></h4>
+<p><a href="https://drive.google.com/file/d/1c2Gxf2GpGVPfJn6r9TLpz-H1NdUXj3h6/view?usp=sharing">Download</a> generate_tfrecords.py</p>
+<div class="highlight"><pre><span></span><code>Upload the file to research folder
+
+Changes can be made in below files incase multiple classes are present.
+
+# TO-DO replace this with label map
+# Changes can be made in if else statement according to the dataset
+def class_text_to_int(row_label):
+    if row_label == &#39;with_mask&#39;:
+        return 1
+    elif row_label == &#39;without_mask&#39;:
+        return 2
+    elif row_label == &#39;mask_weared_incorrect&#39;:
+        return 3
+    else:
+        None
+</code></pre></div>
+<h4 id="step-8-execute-generate_tfrecordpy-for-test-and-train-data"><em>Step - 8: Execute generate_tfrecord.py for test and train data</em></h4>
+<div class="highlight"><pre><span></span><code>!python generate_tfrecord.py --csv_input=mask_images/train/train.csv --image_dir=mask_images/train/ --output_path=train.record
+
+!python generate_tfrecord.py --csv_input=mask_images/test/test.csv --image_dir=mask_images/test/ --output_path=test.record
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Check train.record and test.record files are present in research folder.</p>
+</div>
+<details class="note"><summary>Click here to see full code of generate_tfrecord.py</summary><div class="highlight"><pre><span></span><code>from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+
+import os
+import io
+import pandas as pd
+import tensorflow as tf
+
+from PIL import Image
+from object_detection.utils import dataset_util
+from collections import namedtuple, OrderedDict
+
+flags = tf.app.flags
+flags.DEFINE_string(&#39;csv_input&#39;, &#39;&#39;, &#39;Path to the CSV input&#39;)
+flags.DEFINE_string(&#39;image_dir&#39;, &#39;&#39;, &#39;Path to the image directory&#39;)
+flags.DEFINE_string(&#39;output_path&#39;, &#39;&#39;, &#39;Path to output TFRecord&#39;)
+FLAGS = flags.FLAGS
+
+# TO-DO replace this with label map
+def class_text_to_int(row_label):
+    if row_label == &#39;with_mask&#39;:
+        return 1
+    elif row_label == &#39;without_mask&#39;:
+        return 2
+    elif row_label == &#39;mask_weared_incorrect&#39;:
+        return 3
+    else:
+        None
+
+def split(df, group):
+    data = namedtuple(&#39;data&#39;, [&#39;filename&#39;, &#39;object&#39;])
+    gb = df.groupby(group)
+    return [data(filename, gb.get_group(x)) for filename, x in zip(gb.groups.keys(), gb.groups)]
+
+def create_tf_example(group, path):
+    with tf.gfile.GFile(os.path.join(path, &#39;{}&#39;.format(group.filename)), &#39;rb&#39;) as fid:
+        encoded_jpg = fid.read()
+    encoded_jpg_io = io.BytesIO(encoded_jpg)
+    image = Image.open(encoded_jpg_io)
+    width, height = image.size
+
+    filename = group.filename.encode(&#39;utf8&#39;)
+    image_format = b&#39;jpg&#39;
+    xmins = []
+    xmaxs = []
+    ymins = []
+    ymaxs = []
+    classes_text = []
+    classes = []
+
+    for index, row in group.object.iterrows():
+        xmins.append(row[&#39;xmin&#39;] / width)
+        xmaxs.append(row[&#39;xmax&#39;] / width)
+        ymins.append(row[&#39;ymin&#39;] / height)
+        ymaxs.append(row[&#39;ymax&#39;] / height)
+        classes_text.append(row[&#39;class&#39;].encode(&#39;utf8&#39;))
+        classes.append(class_text_to_int(row[&#39;class&#39;]))
+
+    tf_example = tf.train.Example(features=tf.train.Features(feature={
+        &#39;image/height&#39;: dataset_util.int64_feature(height),
+        &#39;image/width&#39;: dataset_util.int64_feature(width),
+        &#39;image/filename&#39;: dataset_util.bytes_feature(filename),
+        &#39;image/source_id&#39;: dataset_util.bytes_feature(filename),
+        &#39;image/encoded&#39;: dataset_util.bytes_feature(encoded_jpg),
+        &#39;image/format&#39;: dataset_util.bytes_feature(image_format),
+        &#39;image/object/bbox/xmin&#39;: dataset_util.float_list_feature(xmins),
+        &#39;image/object/bbox/xmax&#39;: dataset_util.float_list_feature(xmaxs),
+        &#39;image/object/bbox/ymin&#39;: dataset_util.float_list_feature(ymins),
+        &#39;image/object/bbox/ymax&#39;: dataset_util.float_list_feature(ymaxs),
+        &#39;image/object/class/text&#39;: dataset_util.bytes_list_feature(classes_text),
+        &#39;image/object/class/label&#39;: dataset_util.int64_list_feature(classes),
+    }))
+    return tf_example
+
+def main(_):
+    writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
+    path = os.path.join(os.getcwd(), FLAGS.image_dir)
+    examples = pd.read_csv(FLAGS.csv_input)
+    grouped = split(examples, &#39;filename&#39;)
+    for group in grouped:
+        tf_example = create_tf_example(group, path)
+        writer.write(tf_example.SerializeToString())
+
+    writer.close()
+    output_path = os.path.join(os.getcwd(), FLAGS.output_path)
+    print(&#39;Successfully created the TFRecords: {}&#39;.format(output_path))
+
+if __name__ == &#39;__main__&#39;:
+    tf.app.run()
+</code></pre></div>
+</details>
+<h4 id="step-9-copy-files-faster_rcnn_inception_v2_cococonfig-and-labelmappbtxt-to-training-folder-in-research-directory"><em>Step - 9: Copy Files faster_rcnn_inception_v2_coco.config and labelmap.pbtxt to training folder in research directory</em></h4>
+<p><a href="https://drive.google.com/file/d/1mmDdqZFGa_F2FEIsW4GBTae-tqnIM6GY/view?usp=sharing">Download</a> faster_rcnn_inception_v2_coco.config files  </p>
+<p><a href="https://drive.google.com/file/d/1woz7_I5EiB9UBLnIE3JCqLuldYesdzlm/view?usp=sharing">Download</a> labelmap.pbtxt</p>
+<div class="highlight"><pre><span></span><code>Upload Both files in training folder inside research directory.
+
+A total of 7 changes have to be made in .config file. Refer below for details.
+</code></pre></div>
+<details class="note"><summary>Click here to see what changes to be done in config file</summary><div class="highlight"><pre><span></span><code># Faster R-CNN with Inception v2, configuration for MSCOCO Dataset.
+# Users should configure the fine_tune_checkpoint field in the train config as
+# well as the label_map_path and input_path fields in the train_input_reader and
+# eval_input_reader. Search for &quot;PATH_TO_BE_CONFIGURED&quot; to find the fields that
+# should be configured.
+
+model {
+faster_rcnn {
+    num_classes: 3  # Change: No of classes to be determined
+    image_resizer {
+    keep_aspect_ratio_resizer {
+        min_dimension: 600
+        max_dimension: 1024
+    }
+    }
+    feature_extractor {
+    type: &#39;faster_rcnn_inception_v2&#39;
+    first_stage_features_stride: 16
+    }
+    first_stage_anchor_generator {
+    grid_anchor_generator {
+        scales: [0.25, 0.5, 1.0, 2.0]
+        aspect_ratios: [0.5, 1.0, 2.0]
+        height_stride: 16
+        width_stride: 16
+    }
+    }
+    first_stage_box_predictor_conv_hyperparams {
+    op: CONV
+    regularizer {
+        l2_regularizer {
+        weight: 0.0
+        }
+    }
+    initializer {
+        truncated_normal_initializer {
+        stddev: 0.01
+        }
+    }
+    }
+    first_stage_nms_score_threshold: 0.0
+    first_stage_nms_iou_threshold: 0.7
+    first_stage_max_proposals: 300
+    first_stage_localization_loss_weight: 2.0
+    first_stage_objectness_loss_weight: 1.0
+    initial_crop_size: 14
+    maxpool_kernel_size: 2
+    maxpool_stride: 2
+    second_stage_box_predictor {
+    mask_rcnn_box_predictor {
+        use_dropout: false
+        dropout_keep_probability: 1.0
+        fc_hyperparams {
+        op: FC
+        regularizer {
+            l2_regularizer {
+            weight: 0.0
+            }
+        }
+        initializer {
+            variance_scaling_initializer {
+            factor: 1.0
+            uniform: true
+            mode: FAN_AVG
+            }
+        }
+        }
+    }
+    }
+    second_stage_post_processing {
+    batch_non_max_suppression {
+        score_threshold: 0.0
+        iou_threshold: 0.6
+        max_detections_per_class: 100
+        max_total_detections: 300
+    }
+    score_converter: SOFTMAX
+    }
+    second_stage_localization_loss_weight: 2.0
+    second_stage_classification_loss_weight: 1.0
+}
+}
+
+train_config: {
+batch_size: 1
+optimizer {
+    momentum_optimizer: {
+    learning_rate: {
+        manual_step_learning_rate {
+        initial_learning_rate: 0.0002
+        schedule {
+            step: 900000
+            learning_rate: .00002
+        }
+        schedule {
+            step: 1200000
+            learning_rate: .000002
+        }
+        }
+    }
+    momentum_optimizer_value: 0.9
+    }
+    use_moving_average: false
+}
+gradient_clipping_by_norm: 10.0
+fine_tune_checkpoint: &quot;faster_rcnn/model.ckpt&quot;  # Change: Path for model dowloaded
+from_detection_checkpoint: true
+# Note: The below line limits the training process to 200K steps, which we
+# empirically found to be sufficient enough to train the COCO dataset. This
+# effectively bypasses the learning rate schedule (the learning rate will
+# never decay). Remove the below line to train indefinitely.
+num_steps: 20000    # Change: No of iterations for training
+data_augmentation_options {
+    random_horizontal_flip {
+    }
+}
+}
+
+train_input_reader: {
+tf_record_input_reader {
+    input_path: &quot;train.record&quot;  # Change: Path for train.record
+}
+label_map_path: &quot;training/labelmap.pbtxt&quot;  # Change: Path for labelmap.pbtxt
+}
+
+eval_config: {
+num_examples: 8000
+# Note: The below line limits the evaluation process to 10 evaluations.
+# Remove the below line to evaluate indefinitely.
+max_evals: 10
+}
+
+eval_input_reader: {
+tf_record_input_reader {
+    input_path: &quot;test.record&quot;  # Change: Path for test.record
+}
+label_map_path: &quot;training/labelmap.pbtxt&quot;  # Change: Path for labelmap.pbtxt
+shuffle: false
+num_readers: 1
+}
+</code></pre></div>
+</details>
+<h4 id="step-10-copy-deployment-and-nets-folder-from-researchslim-into-the-research-folder"><em>Step - 10: Copy <em>deployment</em> and <em>nets</em> folder from <em>research/slim</em> into the <em>research</em> folder</em></h4>
+<h4 id="step-11-start-model-training"><em>Step - 11: Start Model Training</em></h4>
+<div class="highlight"><pre><span></span><code>!python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_coco.config
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Few warnings might show, please ignore the same. If model starts training it takes around 40-50 minutes on Google Colab Pro.</p>
+</div>
+<h4 id="step-12-copy-export_inference_graphpy-from-object_detection-folder-to-research-folder"><em>Step - 12: Copy export_inference_graph.py from object_detection folder to research folder</em></h4>
+<div class="highlight"><pre><span></span><code>!python export_inference_graph.py --input_type image_tensor --pipeline_config_path training/faster_rcnn_inception_v2_coco.config --trained_checkpoint_prefix training/model.ckpt-20000 --output_directory mask_model
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Model is now ready to test. Please refer mask_model/frozen_inference_graph.pb which contains trained model.</p>
+</div>
+<h4 id="step-13-run-below-code-and-test-the-images"><em>Step - 13: Run below code and test the images</em></h4>
+<div class="highlight"><pre><span></span><code>%cd object_detection
+
+import numpy as np
+import os
+import six.moves.urllib as urllib
+import sys
+import tarfile
+import tensorflow as tf
+import zipfile
+
+from distutils.version import StrictVersion
+from collections import defaultdict
+from io import StringIO
+from matplotlib import pyplot as plt
+from PIL import Image
+
+# This is needed since the notebook is stored in the object_detection folder.
+sys.path.append(&quot;..&quot;)
+from object_detection.utils import ops as utils_ops
+
+if StrictVersion(tf.__version__) &lt; StrictVersion(&#39;1.9.0&#39;):
+raise ImportError(&#39;Please upgrade your TensorFlow installation to v1.9.* or later!&#39;)
+
+# This is needed to display the images.
+%matplotlib inline
+
+from utils import label_map_util
+from utils import visualization_utils as vis_util
+
+# What model to download.
+MODEL_NAME = &#39;/content/drive/MyDrive/TFOD1.x/models/research/mask_model&#39;
+#MODEL_FILE = MODEL_NAME + &#39;.tar.gz&#39;
+#DOWNLOAD_BASE = &#39;http://download.tensorflow.org/models/object_detection/&#39;
+
+# Path to frozen detection graph. This is the actual model that is used for the object detection.
+PATH_TO_FROZEN_GRAPH = MODEL_NAME + &#39;/frozen_inference_graph.pb&#39;
+
+# List of the strings that is used to add correct label for each box.
+PATH_TO_LABELS = os.path.join(&#39;/content/drive/MyDrive/TFOD1.x/models/research/training&#39;, &#39;labelmap.pbtxt&#39;)
+</code></pre></div>
+<details class="note"><summary>TFOD Code</summary><div class="highlight"><pre><span></span><code>detection_graph = tf.Graph()
+with detection_graph.as_default():
+od_graph_def = tf.GraphDef()
+with tf.gfile.GFile(PATH_TO_FROZEN_GRAPH, &#39;rb&#39;) as fid:
+    serialized_graph = fid.read()
+    od_graph_def.ParseFromString(serialized_graph)
+    tf.import_graph_def(od_graph_def, name=&#39;&#39;)
+
+category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
+
+def load_image_into_numpy_array(image):
+    (im_width, im_height) = image.size
+    return np.array(image.getdata()).reshape(
+        (im_height, im_width, 3)).astype(np.uint8)
+
+# For the sake of simplicity we will use only 2 images:
+# image1.jpg
+# image2.jpg
+# If you want to test the code with your images, just add path to the images to the TEST_IMAGE_PATHS.
+PATH_TO_TEST_IMAGES_DIR = &#39;test_images&#39;
+TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, &#39;image{}.jpg&#39;.format(i)) for i in range(1, 4) ]
+
+# Size, in inches, of the output images.
+IMAGE_SIZE = (12, 8)
+
+def run_inference_for_single_image(image, graph):
+    with graph.as_default():
+        with tf.Session() as sess:
+        # Get handles to input and output tensors
+        ops = tf.get_default_graph().get_operations()
+        all_tensor_names = {output.name for op in ops for output in op.outputs}
+        tensor_dict = {}
+        for key in [
+            &#39;num_detections&#39;, &#39;detection_boxes&#39;, &#39;detection_scores&#39;,
+            &#39;detection_classes&#39;, &#39;detection_masks&#39;
+        ]:
+            tensor_name = key + &#39;:0&#39;
+            if tensor_name in all_tensor_names:
+            tensor_dict[key] = tf.get_default_graph().get_tensor_by_name(
+                tensor_name)
+        if &#39;detection_masks&#39; in tensor_dict:
+            # The following processing is only for single image
+            detection_boxes = tf.squeeze(tensor_dict[&#39;detection_boxes&#39;], [0])
+            detection_masks = tf.squeeze(tensor_dict[&#39;detection_masks&#39;], [0])
+            # Reframe is required to translate mask from box coordinates to image coordinates and fit the image size.
+            real_num_detection = tf.cast(tensor_dict[&#39;num_detections&#39;][0], tf.int32)
+            detection_boxes = tf.slice(detection_boxes, [0, 0], [real_num_detection, -1])
+            detection_masks = tf.slice(detection_masks, [0, 0, 0], [real_num_detection, -1, -1])
+            detection_masks_reframed = utils_ops.reframe_box_masks_to_image_masks(
+                detection_masks, detection_boxes, image.shape[0], image.shape[1])
+            detection_masks_reframed = tf.cast(
+                tf.greater(detection_masks_reframed, 0.5), tf.uint8)
+            # Follow the convention by adding back the batch dimension
+            tensor_dict[&#39;detection_masks&#39;] = tf.expand_dims(
+                detection_masks_reframed, 0)
+        image_tensor = tf.get_default_graph().get_tensor_by_name(&#39;image_tensor:0&#39;)
+
+        # Run inference
+        output_dict = sess.run(tensor_dict,
+                                feed_dict={image_tensor: np.expand_dims(image, 0)})
+
+        # all outputs are float32 numpy arrays, so convert types as appropriate
+        output_dict[&#39;num_detections&#39;] = int(output_dict[&#39;num_detections&#39;][0])
+        output_dict[&#39;detection_classes&#39;] = output_dict[
+            &#39;detection_classes&#39;][0].astype(np.uint8)
+        output_dict[&#39;detection_boxes&#39;] = output_dict[&#39;detection_boxes&#39;][0]
+        output_dict[&#39;detection_scores&#39;] = output_dict[&#39;detection_scores&#39;][0]
+        if &#39;detection_masks&#39; in output_dict:
+            output_dict[&#39;detection_masks&#39;] = output_dict[&#39;detection_masks&#39;][0]
+    return output_dict
+
+% matplotlib inline
+for image_path in TEST_IMAGE_PATHS:
+image = Image.open(image_path)
+# the array based representation of the image will be used later in order to prepare the
+# result image with boxes and labels on it.
+image_np = load_image_into_numpy_array(image)
+# Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+image_np_expanded = np.expand_dims(image_np, axis=0)
+# Actual detection.
+output_dict = run_inference_for_single_image(image_np, detection_graph)
+# Visualization of the results of a detection.
+vis_util.visualize_boxes_and_labels_on_image_array(
+    image_np,
+    output_dict[&#39;detection_boxes&#39;],
+    output_dict[&#39;detection_classes&#39;],
+    output_dict[&#39;detection_scores&#39;],
+    category_index,
+    instance_masks=output_dict.get(&#39;detection_masks&#39;),
+    use_normalized_coordinates=True,
+    line_thickness=8)
+plt.figure(figsize=IMAGE_SIZE)
+plt.imshow(image_np)
+</code></pre></div>
+</details>
+<p><strong>Sample Output1:</strong>
+<img alt="Sample Output1" src="images\sample_img1.PNG" /></p>
+<p><strong>Sample Output2:</strong>
+<img alt="Sample Output2" src="images\sample_img2.PNG" /></p>
+<p><strong>Sample Output3:</strong>
+<img alt="Sample Output3" src="images\sample_img3.PNG" /></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href=".." class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Setup
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            &copy; 2021 <a href="https://github.com/Rahulgarg95"  target="_blank" rel="noopener">Rahul Garg</a>
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/iamrahul95" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/Rahulgarg95" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://medium.com/" target="_blank" rel="noopener" title="medium.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 32v448h448V32H0zm372.2 106.1-24 23c-2.1 1.6-3.1 4.2-2.7 6.7v169.3c-.4 2.6.6 5.2 2.7 6.7l23.5 23v5.1h-118V367l24.3-23.6c2.4-2.4 2.4-3.1 2.4-6.7V199.8l-67.6 171.6h-9.1L125 199.8v115c-.7 4.8 1 9.7 4.4 13.2l31.6 38.3v5.1H71.2v-5.1l31.6-38.3c3.4-3.5 4.9-8.4 4.1-13.2v-133c.4-3.7-1-7.3-3.8-9.8L75 138.1V133h87.3l67.4 148L289 133.1h83.2v5z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.linkedin.com/in/rahulgarg95/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.4fa0e4ee.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.1d3bfcf1.min.js"></script>
+      
+    
+  </body>
+</html>
